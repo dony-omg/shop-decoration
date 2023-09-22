@@ -1,59 +1,63 @@
-import React, { useState, useRef } from 'react'
-import { theme } from 'antd';
 import {
-    closestCenter,
     DndContext,
+    DragEndEvent,
+    DragMoveEvent,
     DragOverlay,
+    DragStartEvent,
     KeyboardSensor,
     PointerSensor,
+    closestCenter,
     useSensor,
-    useSensors,
+    useSensors
 } from '@dnd-kit/core';
 import {
-    arrayMove,
     SortableContext,
+    arrayMove,
     sortableKeyboardCoordinates,
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
+import { theme } from 'antd';
+import React, { useRef, useState } from 'react';
+
 import { useImmer } from "use-immer";
-// import Draggable from './Draggable';
-// import Droppable from './Droppable';
-import Sidebar from './Sidebar';
-import Canvas from './Canvas';
-import ItemElement from './ItemElement';
 
+import Canvas, { Field } from './Canvas';
+import Sidebar, { SidebarField } from './Sidebar';
 
-function getData(prop) {
+function getData(prop: any) {
     return prop?.data?.current ?? {};
 }
 
-function createSpacer({ id }: { id: string }) {
-    return {
-        id,
-        type: "spacer",
-        title: "spacer"
-    };
+type IdType = string | number;
+function createSpacer(arg: IdType) {
+    if (typeof arg === "number" || typeof arg === "string") {
+        return {
+            id: arg,
+            type: "spacer",
+            title: "spacer"
+        };
+    } else {
+        throw new Error("Invalid id type");
+    }
 }
 
-export default function EditContainer() {
+export default function Container() {
     const { token } = theme.useToken();
-
     // dnd-kit demo
     const [sidebarFieldsRegenKey, setSidebarFieldsRegenKey] = useState(
         Date.now()
     );
-    const [activeId, setActiveId] = useState(null);
-    const spacerInsertedRef = useRef(null);
-    const currentDragFieldRef = useRef(null);
+    const spacerInsertedRef = useRef<HTMLElement | string | boolean | null>(null);
+    const currentDragFieldRef = useRef<HTMLElement | string | boolean | null>(null);
     const [activeSidebarField, setActiveSidebarField] = useState<null | boolean>();
     const [activeField, setActiveField] = useState<null | boolean>(null);
+
     const [data, updateData] = useImmer({
         fields: []
     });
-    console.log('EditContainer', data)
-    // const fields = [];
-
     const { fields } = data;
+
+
 
     const cleanUp = () => {
         setActiveSidebarField(null);
@@ -72,7 +76,6 @@ export default function EditContainer() {
     const containerStyle: React.CSSProperties = {
         position: 'relative',
         height: '80vh',
-        // padding: 48,
         overflow: 'hidden',
         background: token.colorFillAlter,
         border: `1px solid ${token.colorBorderSecondary}`,
@@ -80,8 +83,8 @@ export default function EditContainer() {
         overflowY: 'auto',
     };
 
-    const handleDragStart = (e) => {
-        const { active } = e;
+    const handleDragStart = (event: DragStartEvent) => {
+        const { active } = event;
         const activeData = getData(active);
 
         // This is where the cloning starts.
@@ -110,13 +113,14 @@ export default function EditContainer() {
 
         setActiveField(field);
         currentDragFieldRef.current = field;
+
         updateData((draft) => {
-            draft.fields.splice(index, 1, createSpacer({ id: active.id }));
+            draft.fields.splice(index, 1, createSpacer(active.id));
         });
     };
 
-    const handleDragOver = (e) => {
-        const { active, over } = e;
+    const handleDragOver = (event: DragMoveEvent) => {
+        const { active, over } = event;
         const activeData = getData(active);
 
         // Once we detect that a sidebar field is being moved over the canvas
@@ -130,13 +134,11 @@ export default function EditContainer() {
             const overData = getData(over);
 
             if (!spacerInsertedRef.current) {
-                const spacer = createSpacer({
-                    id: active.id + "-spacer"
-                });
+                const spacer = createSpacer(active.id + "-spacer");
 
                 updateData((draft) => {
                     if (!draft.fields.length) {
-                        draft.fields.push(spacer);
+                        // draft.fields.push(spacer);
                     } else {
                         const nextIndex =
                             overData.index > -1 ? overData.index : draft.fields.length;
@@ -152,6 +154,7 @@ export default function EditContainer() {
                     draft.fields = draft.fields.filter((f) => f.type !== "spacer");
                 });
                 spacerInsertedRef.current = false;
+                // console.log('handleDragOver - 3', fields);
             } else {
                 // Since we're still technically dragging the sidebar draggable and not one of the sortable draggables
                 // we need to make sure we're updating the spacer position to reflect where our drop will occur.
@@ -170,12 +173,15 @@ export default function EditContainer() {
 
                     draft.fields = arrayMove(draft.fields, spacerIndex, overData.index);
                 });
+
+                // console.log('handleDragOver - 4', fields);
             }
         }
     };
 
-    const handleDragEnd = (e) => {
-        const { over } = e;
+    const handleDragEnd = (event: DragEndEvent) => {
+        const { over } = event;
+        // console.log('handleDragEnd - 1', event);
 
         // We dropped outside of the over so clean up so we can start fresh.
         if (!over) {
@@ -211,6 +217,9 @@ export default function EditContainer() {
         cleanUp();
     };
 
+    console.log('render', fields);
+
+
     return (
         <div style={containerStyle}>
             <DndContext
@@ -221,6 +230,9 @@ export default function EditContainer() {
                  * Set the draggable element's parent to the nearest <Droppable />
                  */
                 onDragStart={handleDragStart}
+                /**
+                 * while dragging:
+                 */
                 onDragOver={handleDragOver}
                 /**
                  * When drag ends:
@@ -228,6 +240,8 @@ export default function EditContainer() {
                  * Update the layout state
                  */
                 onDragEnd={handleDragEnd}
+                autoScroll
+            // modifiers={[restrictToVerticalAxis]}
             >
                 <div style={{
                     position: 'relative',
@@ -237,28 +251,21 @@ export default function EditContainer() {
                      * Components that use `useDraggable`
                      * Elements that can be dragged
                     */}
-                    <Sidebar />
-                    {/* {parent === null ? draggableMarkup : null} */}
-                    {/* {draggableMarkup} */}
-                    {/* {field.map((item, index) => (
-                            <ItemElement
-                                // key={item.id}
-                                id={item.id}
-                                label={item.title}
-                            // isActive={draggedItem?.id === item.id}
-                            />
-                        ))} */}
+                    <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
 
                     {/* Components that use `useDraggable`, `useDroppable` */}
                     <div style={{ marginLeft: 350, padding: '25px 0' }}>
                         <SortableContext
                             strategy={verticalListSortingStrategy}
-                            items={fields?.map((f) => f?.id)}
+                            items={fields?.map((fields: any) => fields?.id)}
                         >
                             <Canvas items={fields} />
                         </SortableContext>
                         <DragOverlay>
-                            {activeId ? <ItemElement id={activeId} /> : null}
+                            {activeSidebarField ? (
+                                <SidebarField overlay field={activeSidebarField} />
+                            ) : null}
+                            {activeField ? <Field overlay field={activeField} /> : null}
                         </DragOverlay>
                     </div>
                 </div>

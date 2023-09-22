@@ -1,5 +1,4 @@
-import React from 'react'
-import EditContainer from '../components/edit-container'
+import EditContainer from '../components/Container'
 
 export default function EditorPage() {
     return (

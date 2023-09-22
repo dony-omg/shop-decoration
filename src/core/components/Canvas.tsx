@@ -15,13 +15,40 @@ function getRenderer(type: string) {
     return renderers[type] || (() => <div>No renderer found for {type}</div>);
 }
 
+export function Field(props) {
+    const { field, overlay, ...rest } = props;
+    const { type } = field;
+
+    const Component = getRenderer(type);
+
+    let className = "canvas-field";
+    if (overlay) {
+        className += " overlay";
+    }
+
+    return (
+        <div className={className} style={{
+            border: '1px dotted #ff4d4f',
+            textAlign: 'left'
+        }}>
+            {/** //TODO: remove this div */}
+            <div>
+                title: <strong>{field.title}</strong> <br />
+                id:<strong>{field.id}</strong> <br />
+                type:<strong>{field.type}</strong>
+            </div>
+            <Component {...rest} />
+        </div>
+    );
+}
+
 interface SortableFieldProps {
     id: string;
     index: number;
     field: any;
 }
 
-const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
+const SortableField = ({ id, index, field }: SortableFieldProps) => {
     const {
         attributes,
         listeners,
@@ -37,7 +64,6 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
         }
     });
 
-    const Component = getRenderer(field.type);
 
     const style = {
         transform: CSS.Transform.toString(transform),
@@ -45,7 +71,7 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     };
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Component {...props} />
+            <Field field={field} />
         </div>
     )
 }
