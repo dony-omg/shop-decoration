@@ -1,6 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { Divider, Typography } from 'antd';
+import { Divider, Typography, Card, Row, Col } from 'antd';
 import { nanoid } from "nanoid";
 import React, { useRef } from 'react';
 import { fields } from './Items';
@@ -12,27 +12,22 @@ export function SidebarField(props) {
     const { field, overlay } = props;
     const { title } = field;
 
-    let className = "sidebar-field";
+
     if (overlay) {
-        className += " overlay";
+        return (<div>Overlay</div>)
     }
 
     return (
-        <div className={className} style={{
-            padding: 10,
-            marginBottom: 10,
-            backgroundColor: '#f5f5f5',
-            border: '1px dotted #1677ff',
-            textAlign: 'center',
-        }}>
-            <div>
+        <Card title={title}
+        >
+            <img alt="example" src={field.imageUrl} style={{ width: '100%' }} />
+            {/* <div>
                 title: <strong>{field.title}</strong> <br />
                 id:<strong>{field.id}</strong> <br />
                 type:<strong>{field.type}</strong>
-            </div>
+            </div> */}
 
-            {title}
-        </div>
+        </Card>
     );
 }
 
@@ -86,6 +81,7 @@ export default function Sidebar({ fieldsRegKey }: SidebarProps) {
     const containerStyle: React.CSSProperties = {
         width: 350,
         backgroundColor: '#ffffff',
+        overflow: 'scroll',
         position: 'absolute',
         padding: 10,
         top: 0,
@@ -96,12 +92,16 @@ export default function Sidebar({ fieldsRegKey }: SidebarProps) {
         <div key={fieldsRegKey} id="element-list" style={containerStyle}>
             <Title level={4}>Template</Title>
             <Divider />
-            {fields.map((item) => (
-                <DraggableSidebarField
-                    field={item}
-                    key={item.type}
-                />
-            ))}
+            <Row gutter={[16, 16]}>
+                {fields.map((item) => (
+                    <Col span={12}>
+                        <DraggableSidebarField
+                            field={item}
+                            key={item.type}
+                        />
+                    </Col>
+                ))}
+            </Row>
         </div>
     )
 }

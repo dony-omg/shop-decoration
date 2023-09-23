@@ -9,30 +9,37 @@ export const fields = [
     {
         type: "shopHeader",
         title: "Shop Header",
+        imageUrl: "https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*4i58ToAcxaYAAAAAAAAAAAAADrJ8AQ/original"
     },
     {
         type: "products",
         title: "Products",
+        imageUrl: "	https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*VXtCTp93KPAAAAAAAAAAAAAADrJ8AQ/original"
     },
     {
         type: "promotion",
         title: "Promotion",
+        imageUrl: "https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*oyOcTrB12_YAAAAAAAAAAAAADrJ8AQ/original"
     },
     {
         type: "carousel",
         title: "Carousel",
+        imageUrl: "https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*bPMSSqbaTMkAAAAAAAAAAAAADrJ8AQ/original"
     },
     {
         type: "typography",
         title: "Typography",
+        imageUrl: "https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*MLt3R6m9huoAAAAAAAAAAAAADrJ8AQ/original"
     },
     {
         type: "input",
-        title: "Text Input"
+        title: "Text Input",
+        imageUrl: "https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*Y3R0RowXHlAAAAAAAAAAAAAADrJ8AQ/original"
     },
     {
         type: "button",
-        title: "Button"
+        title: "Button",
+        imageUrl: "https://mdn.alipayobjects.com/huamei_7uahnr/afts/img/A*BrFMQ5s7AAQAAAAAAAAAAAAADrJ8AQ/original"
     }
 ]
 
