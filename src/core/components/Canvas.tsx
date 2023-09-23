@@ -1,4 +1,5 @@
 import React from 'react'
+import { Tooltip } from 'antd'
 import { useDroppable } from '@dnd-kit/core';
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
@@ -27,18 +28,20 @@ export function Field(props) {
     }
 
     return (
-        <div className={className} style={{
-            border: '1px dotted #ff4d4f',
-            textAlign: 'left'
-        }}>
-            {/** //TODO: remove this div */}
-            <div>
-                title: <strong>{field.title}</strong> <br />
-                id:<strong>{field.id}</strong> <br />
-                type:<strong>{field.type}</strong>
+        <Tooltip title={field.title}>
+            <div className={className} style={{
+                border: '1px dotted #ff4d4f',
+                textAlign: 'left'
+            }}>
+                {/** //TODO: remove this div */}
+                <div>
+                    title: <strong>{field.title}</strong> <br />
+                    id:<strong>{field.id}</strong> <br />
+                    type:<strong>{field.type}</strong>
+                </div>
+                <Component {...rest} />
             </div>
-            <Component {...rest} />
-        </div>
+        </Tooltip>
     );
 }
 
@@ -111,7 +114,6 @@ export default function Canvas({ items, id }: Props) {
         boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
         //TODO: remove this margin
         margin: '0 auto',
-        height: '1000px',
     };
     return (
         <div id="mobile-container" style={containerStyle}>
@@ -126,7 +128,7 @@ export default function Canvas({ items, id }: Props) {
                     data-container={id}
                 >
                     {items.map((item, i) => (
-                        <SortableField key={item.id} id={item.id} field={item} index={i} />
+                        <Field key={item.id} id={item.id} field={item} index={i} />
                     ))}
                 </div>
             </div>

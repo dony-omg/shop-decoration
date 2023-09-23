@@ -37,14 +37,13 @@ export function SidebarField(props) {
 }
 
 interface DraggableSidebarFieldProps {
-    label?: string,
     field?: any
 }
 
 /**
  * @name DraggableSidebarField Component
 */
-const DraggableSidebarField = ({ label, field }: DraggableSidebarFieldProps) => {
+const DraggableSidebarField = ({ field }: DraggableSidebarFieldProps) => {
 
     const id = useRef(nanoid())
 
@@ -70,7 +69,7 @@ const DraggableSidebarField = ({ label, field }: DraggableSidebarFieldProps) => 
                 transform: CSS.Translate.toString(transform),
             }}
         >
-            <SidebarField label={label} field={field} />
+            <SidebarField field={field} />
         </div>
     )
 }
@@ -101,7 +100,6 @@ export default function Sidebar({ fieldsRegKey }: SidebarProps) {
                 <DraggableSidebarField
                     field={item}
                     key={item.type}
-                    label={item.title}
                 />
             ))}
         </div>

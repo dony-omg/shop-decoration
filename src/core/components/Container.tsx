@@ -18,8 +18,9 @@ import {
 } from '@dnd-kit/sortable';
 import { theme } from 'antd';
 import React, { useRef, useState } from 'react';
-
 import { useImmer } from "use-immer";
+
+import Announcements from "./announcements";
 
 import Canvas, { Field } from './Canvas';
 import Sidebar, { SidebarField } from './Sidebar';
@@ -55,9 +56,9 @@ export default function Container() {
     const [data, updateData] = useImmer({
         fields: []
     });
+
+
     const { fields } = data;
-
-
 
     const cleanUp = () => {
         setActiveSidebarField(null);
@@ -247,6 +248,7 @@ export default function Container() {
                     position: 'relative',
                     background: '#f5f5f5',
                 }}>
+                    <Announcements />
                     {/**
                      * Components that use `useDraggable`
                      * Elements that can be dragged
