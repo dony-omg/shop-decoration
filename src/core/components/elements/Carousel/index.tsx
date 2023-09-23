@@ -21,14 +21,17 @@ const contentStyle: React.CSSProperties = {
 };
 
 interface Props {
-    field?: any
+    field?: any,
+    onRemove?: (id: string) => void
 }
-export default function CarouselElement({ field }: Props) {
+export default function CarouselElement({ field, ...props }: Props) {
     const settingOption = {
         field,
         configContent: Setting,
         onDrag: () => { console.log('onDrag') },
-        onDelete: () => { console.log('onDrag') },
+        onDelete: () => {
+            props?.onRemove?.(field.id);
+        },
     }
 
     const onChange = (currentSlide: number) => {

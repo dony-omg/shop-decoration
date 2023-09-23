@@ -13,9 +13,10 @@ const Setting = () => {
 }
 
 interface Props {
-    field?: any
+    field?: any,
+    onRemove?: (id: string) => void
 }
-export default function TypographyElement({ field }: Props) {
+export default function TypographyElement({ field, ...props }: Props) {
     const type = 'Title';
     const content = 'Typography';
     const Render = Typography[type];
@@ -24,7 +25,9 @@ export default function TypographyElement({ field }: Props) {
         field,
         configContent: Setting,
         onDrag: () => { console.log('onDrag') },
-        onDelete: () => { console.log('onDrag') },
+        onDelete: () => {
+            props?.onRemove?.(field.id);
+        },
     }
 
     return (

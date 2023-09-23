@@ -14,7 +14,7 @@ const SettingAction = ({ ...props }: SettingProps) => (
         <Popover placement="right" content={props?.configContent?.({ field: props.field })} title="Setting" trigger={"click"} arrow={false}>
             <Button icon={<SettingOutlined />} size={"small"} />
         </Popover>
-        {props?.onDelete && <Button icon={<DeleteOutlined />} size={"small"} onClick={() => props?.onDelete?.()} />}
+        {props?.onDelete && <Button danger icon={<DeleteOutlined />} size={"small"} onClick={() => props?.onDelete?.()} />}
     </Space>
 );
 

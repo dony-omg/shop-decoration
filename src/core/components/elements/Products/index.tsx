@@ -8,7 +8,7 @@ const { Title } = Typography;
  */
 const Setting = () => {
     return (
-        <div>Setting Shop Header</div>
+        <div>Setting Product</div>
     )
 }
 
@@ -22,9 +22,10 @@ const ProductCard = () => (
 )
 
 interface Props {
-    field?: any
+    field?: any,
+    onRemove?: (id: string) => void
 }
-export default function Products({ field }: Props) {
+export default function Products({ field, ...props }: Props) {
     const colCount = 2;
     const numberOfProducts = 4;
 
@@ -32,8 +33,12 @@ export default function Products({ field }: Props) {
         field,
         configContent: Setting,
         onDrag: () => { console.log('onDrag') },
-        onDelete: () => { console.log('onDrag') },
+        onDelete: () => {
+            props?.onRemove?.(field.id);
+        },
     }
+
+    console.log(`field ${field?.type}`, field);
 
     return (
         <ElementContainer

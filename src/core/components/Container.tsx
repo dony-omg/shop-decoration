@@ -8,13 +8,13 @@ import {
     PointerSensor,
     closestCenter,
     useSensor,
-    useSensors
+    useSensors,
+    UniqueIdentifier
 } from '@dnd-kit/core';
 import {
     SortableContext,
     arrayMove,
-    sortableKeyboardCoordinates,
-    verticalListSortingStrategy,
+    sortableKeyboardCoordinates
 } from '@dnd-kit/sortable';
 import { theme } from 'antd';
 import React, { useRef, useState } from 'react';
@@ -59,9 +59,17 @@ export default function Container() {
             title: "Shop Header",
         }]
     });
-
-
     const { fields } = data;
+
+
+    /**
+     * @name handleRemove remove item on canvas
+     * @param id 
+     */
+    const handleRemove = (id: UniqueIdentifier) => {
+        const newFields = fields.filter((item) => item.id !== id);
+        updateData((draft) => { draft.fields = newFields });
+    }
 
     const cleanUp = () => {
         setActiveSidebarField(null);
@@ -221,6 +229,8 @@ export default function Container() {
         cleanUp();
     };
 
+
+
     console.log('render', fields);
 
 
@@ -264,7 +274,10 @@ export default function Container() {
                             // strategy={verticalListSortingStrategy}
                             items={fields?.map((fields: any) => fields?.id)}
                         >
-                            <Canvas items={fields} />
+                            <Canvas
+                                items={fields}
+                                onRemove={handleRemove}
+                            />
                         </SortableContext>
                         <DragOverlay>
                             {activeSidebarField ? (

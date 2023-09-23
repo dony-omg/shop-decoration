@@ -46,9 +46,9 @@ export const fields = [
 // These define how we render the field
 export const renderers = {
     shopHeader: () => <ShopHeader />,
-    products: () => <Products />,
-    promotion: () => <Promotion />,
-    carousel: () => <Carousel />,
+    products: Products,
+    promotion: Promotion,
+    carousel: Carousel,
     typography: () => <Typography />,
     input: () => <input type="text" placeholder="This is a text input" />,
     select: () => (

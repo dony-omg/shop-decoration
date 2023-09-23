@@ -21,13 +21,14 @@ export function Field(props) {
 
     const Component = getRenderer(type);
 
-    let className = "canvas-field";
-    if (overlay) {
-        className += " overlay";
-    }
+    // if (overlay) {
+    //     return (<div>Overlay</div>)
+    // }
+
+
 
     return (
-        <div className={className} style={{
+        <div style={{
             border: '1px dotted #ff4d4f',
             textAlign: 'left'
         }}>
@@ -37,7 +38,7 @@ export function Field(props) {
                 id:<strong>{field.id}</strong> <br />
                 type:<strong>{field.type}</strong>
             </div> */}
-            <Component {...rest} />
+            <Component {...props} onRemove={rest?.onRemove} />
         </div>
     );
 }
@@ -46,9 +47,10 @@ interface SortableFieldProps {
     id: string;
     index: number;
     field: any;
+    onRemove?: (id: string) => void;
 }
 
-const SortableField = ({ id, index, field }: SortableFieldProps) => {
+const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     const {
         attributes,
         listeners,
@@ -72,20 +74,21 @@ const SortableField = ({ id, index, field }: SortableFieldProps) => {
     };
     return (
         <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Field field={field} />
+            <Field field={field} onRemove={props?.onRemove} />
         </div>
     )
 }
 
 interface Props {
     items?: any[];
+    onRemove?: (id: string) => void;
 }
 
 /**
  * @name Canvas Component
  * @returns JSX.Element
  */
-export default function Canvas({ items, id }: Props) {
+export default function Canvas({ items, id, ...props }: Props) {
     const {
         listeners,
         setNodeRef,
@@ -126,7 +129,13 @@ export default function Canvas({ items, id }: Props) {
                     data-container={id}
                 >
                     {items.map((item, i) => (
-                        <SortableField key={item.id} id={item.id} field={item} index={i} />
+                        <SortableField
+                            key={item.id}
+                            id={item.id}
+                            field={item}
+                            index={i}
+                            onRemove={props.onRemove}
+                        />
                     ))}
                 </div>
             </div>

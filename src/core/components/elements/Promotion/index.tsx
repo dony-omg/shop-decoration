@@ -12,14 +12,18 @@ const Setting = () => {
 }
 
 interface Props {
-    field?: any
+    field?: any,
+    onRemove?: (id: string) => void
 }
-export default function Promotion({ field }: Props) {
+export default function Promotion({ field, ...props }: Props) {
     const settingOption = {
         field,
         configContent: Setting,
         onDrag: () => { console.log('onDrag') },
-        onDelete: () => { console.log('onDrag') },
+        onDelete: () => {
+            console.log('onDelete', field);
+            props?.onRemove?.(field.id);
+        },
     }
 
     return (
