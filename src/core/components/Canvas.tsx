@@ -1,8 +1,7 @@
-import React from 'react'
-import { Tooltip } from 'antd'
 import { useDroppable } from '@dnd-kit/core';
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
+import React from 'react';
 import { renderers } from './Items';
 
 
@@ -28,20 +27,18 @@ export function Field(props) {
     }
 
     return (
-        <Tooltip title={field.title}>
-            <div className={className} style={{
-                border: '1px dotted #ff4d4f',
-                textAlign: 'left'
-            }}>
-                {/** //TODO: remove this div */}
-                <div>
-                    title: <strong>{field.title}</strong> <br />
-                    id:<strong>{field.id}</strong> <br />
-                    type:<strong>{field.type}</strong>
-                </div>
-                <Component {...rest} />
-            </div>
-        </Tooltip>
+        <div className={className} style={{
+            border: '1px dotted #ff4d4f',
+            textAlign: 'left'
+        }}>
+            {/** //TODO: remove this div */}
+            {/* <div>
+                title: <strong>{field.title}</strong> <br />
+                id:<strong>{field.id}</strong> <br />
+                type:<strong>{field.type}</strong>
+            </div> */}
+            <Component {...rest} />
+        </div>
     );
 }
 
@@ -64,7 +61,8 @@ const SortableField = ({ id, index, field }: SortableFieldProps) => {
             index,
             id,
             field
-        }
+        },
+        disabled: true
     });
 
 
@@ -98,7 +96,7 @@ export default function Canvas({ items, id }: Props) {
         data: {
             parent: null,
             isContainer: true
-        }
+        },
     });
 
     const style = {
@@ -128,7 +126,7 @@ export default function Canvas({ items, id }: Props) {
                     data-container={id}
                 >
                     {items.map((item, i) => (
-                        <Field key={item.id} id={item.id} field={item} index={i} />
+                        <SortableField key={item.id} id={item.id} field={item} index={i} />
                     ))}
                 </div>
             </div>

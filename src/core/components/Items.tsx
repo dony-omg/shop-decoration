@@ -1,5 +1,20 @@
+import ShopHeader from "./elements/ShopHeader";
+import Products from "./elements/Products";
+import Promotion from "./elements/Promotion";
 // These will be available from the sidebar
 export const fields = [
+    {
+        type: "shopHeader",
+        title: "Shop Header",
+    },
+    {
+        type: "products",
+        title: "Products",
+    },
+    {
+        type: "promotion",
+        title: "Promotion",
+    },
     {
         type: "input",
         title: "Text Input"
@@ -24,6 +39,9 @@ export const fields = [
 
 // These define how we render the field
 export const renderers = {
+    shopHeader: () => <ShopHeader />,
+    products: () => <Products />,
+    promotion: () => <Promotion />,
     input: () => <input type="text" placeholder="This is a text input" />,
     textarea: () => <textarea rows="5" />,
     select: () => (

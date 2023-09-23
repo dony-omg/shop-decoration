@@ -20,7 +20,7 @@ import { theme } from 'antd';
 import React, { useRef, useState } from 'react';
 import { useImmer } from "use-immer";
 
-import Announcements from "./announcements";
+import Announcements from "../utils/announcements";
 
 import Canvas, { Field } from './Canvas';
 import Sidebar, { SidebarField } from './Sidebar';
@@ -54,7 +54,10 @@ export default function Container() {
     const [activeField, setActiveField] = useState<null | boolean>(null);
 
     const [data, updateData] = useImmer({
-        fields: []
+        fields: [{
+            type: "shopHeader",
+            title: "Shop Header",
+        }]
     });
 
 
@@ -258,7 +261,7 @@ export default function Container() {
                     {/* Components that use `useDraggable`, `useDroppable` */}
                     <div style={{ marginLeft: 350, padding: '25px 0' }}>
                         <SortableContext
-                            strategy={verticalListSortingStrategy}
+                            // strategy={verticalListSortingStrategy}
                             items={fields?.map((fields: any) => fields?.id)}
                         >
                             <Canvas items={fields} />

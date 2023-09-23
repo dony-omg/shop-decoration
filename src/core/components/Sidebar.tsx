@@ -1,9 +1,9 @@
-import React, { useId, useRef } from 'react'
 import { useDraggable } from "@dnd-kit/core";
-import { nanoid } from "nanoid";
 import { CSS } from "@dnd-kit/utilities";
-import { Divider, Typography } from 'antd'
-import { fields } from './Items'
+import { Divider, Typography } from 'antd';
+import { nanoid } from "nanoid";
+import React, { useRef } from 'react';
+import { fields } from './Items';
 
 const { Title } = Typography;
 
