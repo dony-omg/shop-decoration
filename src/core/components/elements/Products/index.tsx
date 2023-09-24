@@ -1,4 +1,4 @@
-import { Card, Col, Row, Typography } from 'antd';
+import { Card, Col, Row, Typography, Form, Input } from 'antd';
 import ElementContainer from '../../common/ElementContainer';
 const { Meta } = Card;
 const { Title } = Typography;
@@ -7,8 +7,23 @@ const { Title } = Typography;
  * @returns JSX.Element
  */
 const Setting = () => {
+    const [form] = Form.useForm();
+
+    const onFinish = (values: any) => {
+        console.log(values);
+    };
+
     return (
-        <div>Setting Product</div>
+        <Form
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            style={{ maxWidth: 600 }}
+        >
+            <Form.Item name="nameShop" label="Name Shop" rules={[{ required: true }]}>
+                <Input />
+            </Form.Item>
+        </Form>
     )
 }
 

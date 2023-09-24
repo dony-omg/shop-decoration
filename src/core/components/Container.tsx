@@ -55,13 +55,30 @@ export default function Container() {
 
     const [data, updateData] = useImmer({
         fields: [{
+            id: "shopHeader",
             type: "shopHeader",
             title: "Shop Header",
             disabled: true,
+            optionSetting: {
+                shopName: "Shop Name",
+                description: "Shop Description",
+            }
         }]
     });
     const { fields } = data;
 
+    const handleUpdateSetting = (id: UniqueIdentifier, optionSetting: any) => {
+        const newFields = fields.map((item) => {
+            if (item.id === id) {
+                return {
+                    ...item,
+                    optionSetting
+                }
+            }
+            return item;
+        });
+        updateData((draft) => { draft.fields = newFields });
+    }
 
     /**
      * @name handleRemove remove item on canvas
@@ -230,10 +247,7 @@ export default function Container() {
         cleanUp();
     };
 
-
-
     console.log('render', fields);
-
 
     return (
         <div style={containerStyle}>
@@ -272,12 +286,16 @@ export default function Container() {
                     {/* Components that use `useDraggable`, `useDroppable` */}
                     <div style={{ marginLeft: 350, padding: '25px 0' }}>
                         <SortableContext
+                            onSortEnd={(event) => {
+                                console.log('onSortEnd', event);
+                            }}
                             // strategy={verticalListSortingStrategy}
                             items={fields?.map((fields: any) => fields?.id)}
                         >
                             <Canvas
                                 items={fields}
                                 onRemove={handleRemove}
+                                onUpdateSetting={handleUpdateSetting}
                             />
                         </SortableContext>
                         <DragOverlay>

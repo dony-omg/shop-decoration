@@ -1,36 +1,68 @@
-import { Space, Button, Input, Avatar, Typography, TabsProps, Tabs } from 'antd';
+import { Space, Button, Input, Avatar, Typography, TabsProps, Tabs, Form } from 'antd';
 import { ArrowLeftOutlined } from '@ant-design/icons';
 import ElementContainer from '../../common/ElementContainer';
 
 const { Text } = Typography;
 
+interface SettingProps {
+    field?: any,
+    onUpdateSetting?: (id: string, setting: any) => void,
+}
+
 /**
  * @name Setting
  * @returns JSX.Element
  */
-const Setting = ({ field }: { field: any }) => {
+const Setting = ({ field, onUpdateSetting }: SettingProps) => {
+    const [form] = Form.useForm();
+    const onFinish = (values: any) => {
+
+        onUpdateSetting && onUpdateSetting(field.id, values);
+    };
+
     return (
-        <div>Setting Shop Header</div>
+        <Form
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            style={{ maxWidth: 600 }}
+            initialValues={{
+                shopName: field?.optionSetting?.shopName,
+                description: field?.optionSetting?.description,
+            }}
+        >
+            <Form.Item name="shopName" label="Name Shop" rules={[{ required: true }]}>
+                <Input />
+            </Form.Item>
+            <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+                <Input />
+            </Form.Item>
+            <Form.Item >
+                <Button type="primary" htmlType="submit">Submit</Button>
+            </Form.Item>
+        </Form>
     )
 }
 
 interface Props {
-    field?: any
+    field?: any,
 }
 /**
  * @name ShopHeader Component
  * @param field 
  * @returns JSX.Element
  */
-export default function ShopHeader({ field }: Props) {
+export default function ShopHeader({ field, ...props }: Props) {
+
+    // console.log('optionSetting', props);
+
     const settingOption = {
         field: {
             ...field,
-            title: 'ShopHeader'
+            title: 'Setting Shop Header'
         },
-        configContent: Setting,
-        onDrag: () => { console.log('onDrag') },
-        onDelete: () => { console.log('onDrag') },
+        configContent: () => <Setting field={field} {...props} />,
+        ...props,
     }
 
     const items: TabsProps['items'] = [
@@ -71,9 +103,9 @@ export default function ShopHeader({ field }: Props) {
                     <Space>
                         <Avatar size="large" />
                         <div>
-                            <Text strong>Shop Name</Text>
+                            <Text strong>{field?.optionSetting?.shopName || ' Shop Name'}</Text>
                             <br />
-                            <Text>Shop Description</Text>
+                            <Text>{field?.optionSetting?.description || 'Shop Description'}</Text>
                         </div>
                     </Space>
                     <Button>Follow</Button>

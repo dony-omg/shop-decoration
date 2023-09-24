@@ -26,6 +26,7 @@ export function Field(props) {
 
     const Component = getRenderer(type);
 
+
     if (overlay) {
         return (<div
             style={{
@@ -42,7 +43,12 @@ export function Field(props) {
             border: '1px dotted #ff4d4f',
             textAlign: 'left'
         }}>
-            <Component {...props} onRemove={rest?.onRemove} />
+            <Component
+                {...props}
+                field={field}
+                onRemove={rest?.onRemove}
+                onUpdateSetting={rest?.onUpdateSetting}
+            />
         </div>
     );
 }
@@ -52,6 +58,7 @@ interface SortableFieldProps {
     index: number;
     field: any;
     onRemove?: (id: string) => void;
+    onUpdateSetting?: (id: string, setting: any) => void;
 }
 
 const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
@@ -79,7 +86,13 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     };
     return (
         <div ref={setNodeRef} style={style} {...attributes}>
-            <Field field={field} onRemove={props?.onRemove} listeners={listeners} setActivatorNodeRef={setActivatorNodeRef} />
+            <Field
+                field={field}
+                onRemove={props?.onRemove}
+                listeners={listeners}
+                setActivatorNodeRef={setActivatorNodeRef}
+                onUpdateSetting={props?.onUpdateSetting}
+            />
         </div>
     )
 }
@@ -87,6 +100,7 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
 interface Props {
     items?: any[];
     onRemove?: (id: string) => void;
+    onUpdateSetting?: (id: string, setting: any) => void;
 }
 
 /**
@@ -141,6 +155,7 @@ export default function Canvas({ items, id, ...props }: Props) {
                             field={item}
                             index={i}
                             onRemove={props.onRemove}
+                            onUpdateSetting={props.onUpdateSetting}
                         />
                     ))}
                 </div>

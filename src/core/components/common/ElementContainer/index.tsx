@@ -32,6 +32,7 @@ export default function ElementContainer({ children, popoverOption, settingOptio
             content={<SettingAction {...settingOption} />}
             trigger="hover"
             {...popoverOption}
+
         >
             {children}
         </Popover>

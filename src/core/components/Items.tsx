@@ -45,7 +45,7 @@ export const fields = [
 
 // These define how we render the field
 export const renderers = {
-    shopHeader: () => <ShopHeader />,
+    shopHeader: ShopHeader,
     products: Products,
     promotion: Promotion,
     carousel: Carousel,
