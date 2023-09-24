@@ -7,7 +7,7 @@ import ElementContainer from '../../common/ElementContainer';
  */
 const Setting = () => {
     return (
-        <div>Setting Promotion</div>
+        <div>Setting CarouselElement</div>
     )
 }
 
@@ -22,16 +22,12 @@ const contentStyle: React.CSSProperties = {
 
 interface Props {
     field?: any,
-    onRemove?: (id: string) => void
 }
 export default function CarouselElement({ field, ...props }: Props) {
     const settingOption = {
         field,
         configContent: Setting,
-        onDrag: () => { console.log('onDrag') },
-        onDelete: () => {
-            props?.onRemove?.(field.id);
-        },
+        ...props,
     }
 
     const onChange = (currentSlide: number) => {

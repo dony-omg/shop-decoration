@@ -10,7 +10,7 @@ function getRenderer(type: string) {
         return () => {
             return (<div style={{
                 width: '100%',
-                height: 190,
+                height: 50,
                 backgroundColor: '#f5f5f5',
                 color: '#f5f5f5'
             }} >spacer</div>);
@@ -30,25 +30,18 @@ export function Field(props) {
         return (<div
             style={{
                 width: '100%',
-                height: 190,
+                height: 60,
                 backgroundColor: '#f5f5f5',
+                color: '#f5f5f5'
             }}
         >Overlay</div>)
     }
-
-
 
     return (
         <div style={{
             border: '1px dotted #ff4d4f',
             textAlign: 'left'
         }}>
-            {/** //TODO: remove this div */}
-            {/* <div>
-                title: <strong>{field.title}</strong> <br />
-                id:<strong>{field.id}</strong> <br />
-                type:<strong>{field.type}</strong>
-            </div> */}
             <Component {...props} onRemove={rest?.onRemove} />
         </div>
     );
@@ -63,10 +56,10 @@ interface SortableFieldProps {
 
 const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     const {
-        setDroppableNodeRef,
         attributes,
         listeners,
         setNodeRef,
+        setActivatorNodeRef,
         transform,
         transition
     } = useSortable({
@@ -85,8 +78,8 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
         transition
     };
     return (
-        <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-            <Field field={field} onRemove={props?.onRemove} />
+        <div ref={setNodeRef} style={style} {...attributes}>
+            <Field field={field} onRemove={props?.onRemove} listeners={listeners} setActivatorNodeRef={setActivatorNodeRef} />
         </div>
     )
 }

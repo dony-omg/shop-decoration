@@ -5,16 +5,17 @@ import { DragOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons
 interface SettingProps {
     field?: any,
     configContent?: (props: { field?: any }) => React.ReactNode,
-    onDrag?: () => void,
-    onDelete?: () => void,
+    onRemove?: (id: string) => void,
+    listeners?: any,
+    setActivatorNodeRef?: (node: HTMLElement) => void
 }
-const SettingAction = ({ ...props }: SettingProps) => (
+const SettingAction = ({ listeners, setActivatorNodeRef, onRemove, ...props }: SettingProps) => (
     <Space direction="vertical">
-        {props?.onDrag && <Button onDrag={() => props?.onDrag?.()} icon={<DragOutlined />} size={"small"} />}
+        <Button {...listeners} node={setActivatorNodeRef} icon={<DragOutlined />} size={"small"} />
         <Popover placement="right" content={props?.configContent?.({ field: props.field })} title="Setting" trigger={"click"} arrow={false}>
             <Button icon={<SettingOutlined />} size={"small"} />
         </Popover>
-        {props?.onDelete && <Button danger icon={<DeleteOutlined />} size={"small"} onClick={() => props?.onDelete?.()} />}
+        <Button danger icon={<DeleteOutlined />} size={"small"} onClick={() => { onRemove?.(props?.field?.id) }} />
     </Space>
 );
 

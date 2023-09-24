@@ -23,7 +23,6 @@ const ProductCard = () => (
 
 interface Props {
     field?: any,
-    onRemove?: (id: string) => void
 }
 export default function Products({ field, ...props }: Props) {
     const colCount = 2;
@@ -32,10 +31,7 @@ export default function Products({ field, ...props }: Props) {
     const settingOption = {
         field,
         configContent: Setting,
-        onDrag: () => { console.log('onDrag') },
-        onDelete: () => {
-            props?.onRemove?.(field.id);
-        },
+        ...props,
     }
 
     return (

@@ -57,6 +57,7 @@ export default function Container() {
         fields: [{
             type: "shopHeader",
             title: "Shop Header",
+            disabled: true,
         }]
     });
     const { fields } = data;
