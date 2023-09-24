@@ -8,7 +8,12 @@ import { renderers } from './Items';
 function getRenderer(type: string) {
     if (type === "spacer") {
         return () => {
-            return <div className="spacer">spacer</div>;
+            return (<div style={{
+                width: '100%',
+                height: 190,
+                backgroundColor: '#f5f5f5',
+                color: '#f5f5f5'
+            }} >spacer</div>);
         };
     }
 
@@ -21,9 +26,15 @@ export function Field(props) {
 
     const Component = getRenderer(type);
 
-    // if (overlay) {
-    //     return (<div>Overlay</div>)
-    // }
+    if (overlay) {
+        return (<div
+            style={{
+                width: '100%',
+                height: 190,
+                backgroundColor: '#f5f5f5',
+            }}
+        >Overlay</div>)
+    }
 
 
 
@@ -52,6 +63,7 @@ interface SortableFieldProps {
 
 const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     const {
+        setDroppableNodeRef,
         attributes,
         listeners,
         setNodeRef,
@@ -64,7 +76,7 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
             id,
             field
         },
-        disabled: true
+        // disabled: true
     });
 
 
@@ -116,6 +128,7 @@ export default function Canvas({ items, id, ...props }: Props) {
         //TODO: remove this margin
         margin: '0 auto',
     };
+
     return (
         <div id="mobile-container" style={containerStyle}>
             <div

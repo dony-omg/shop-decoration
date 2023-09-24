@@ -38,8 +38,6 @@ export default function Products({ field, ...props }: Props) {
         },
     }
 
-    console.log(`field ${field?.type}`, field);
-
     return (
         <ElementContainer
             settingOption={settingOption}

@@ -14,19 +14,15 @@ export function SidebarField(props) {
 
 
     if (overlay) {
-        return (<div>Overlay</div>)
+        return (<Card title={title}>
+            <img alt="example" src={field.imageUrl} style={{ width: '100%' }} />
+        </Card>)
     }
 
     return (
         <Card title={title}
         >
             <img alt="example" src={field.imageUrl} style={{ width: '100%' }} />
-            {/* <div>
-                title: <strong>{field.title}</strong> <br />
-                id:<strong>{field.id}</strong> <br />
-                type:<strong>{field.type}</strong>
-            </div> */}
-
         </Card>
     );
 }
