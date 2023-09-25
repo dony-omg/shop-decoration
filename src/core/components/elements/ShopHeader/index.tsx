@@ -1,65 +1,81 @@
-import { Space, Button, Input, Avatar, Typography, TabsProps, Tabs, Form } from 'antd';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, SettingOutlined } from '@ant-design/icons';
+import { Avatar, Button, Form, Input, Popconfirm, Space, Tabs, TabsProps, Typography } from 'antd';
+import { useState } from 'react';
+import { IField, IShopHeaderElementSetting } from '../../../types';
 import ElementContainer from '../../common/ElementContainer';
+import SettingPopContainer from '../../common/SettingPopContainer';
 
 const { Text } = Typography;
 
 interface SettingProps {
-    field?: any,
-    onUpdateSetting?: (id: string, setting: any) => void,
+    field?: IField,
+    onUpdateSetting?: (id: string, setting: IShopHeaderElementSetting) => void,
+    configContent?: () => JSX.Element,
 }
 
 /**
  * @name Setting
  * @returns JSX.Element
  */
-const Setting = ({ field, onUpdateSetting }: SettingProps) => {
+export const Setting = ({ field, onUpdateSetting }: SettingProps) => {
     const [form] = Form.useForm();
-    const onFinish = (values: any) => {
 
-        onUpdateSetting && onUpdateSetting(field.id, values);
+    const handleOk = () => {
+        form.submit()
+    };
+
+    const handleCancel = () => {
+    };
+
+    const onFinish = (values: IShopHeaderElementSetting) => {
+        if (field && field.id) {
+            onUpdateSetting && onUpdateSetting(field.id, values);
+        }
     };
 
     return (
-        <Form
-            form={form}
-            name="control-hooks"
-            onFinish={onFinish}
-            style={{ maxWidth: 600 }}
-            initialValues={{
-                shopName: field?.optionSetting?.shopName,
-                description: field?.optionSetting?.description,
-            }}
-        >
-            <Form.Item name="shopName" label="Name Shop" rules={[{ required: true }]}>
-                <Input />
-            </Form.Item>
-            <Form.Item name="description" label="Description" rules={[{ required: true }]}>
-                <Input />
-            </Form.Item>
-            <Form.Item >
-                <Button type="primary" htmlType="submit">Submit</Button>
-            </Form.Item>
-        </Form>
+        <SettingPopContainer
+            onConfirm={handleOk}
+            onCancel={handleCancel}
+            description={
+                <Form
+                    form={form}
+                    name="control-hooks"
+                    onFinish={onFinish}
+                    style={{ maxWidth: 600 }}
+                    initialValues={{
+                        shopName: field?.optionSetting?.shopName,
+                        description: field?.optionSetting?.description,
+                    }}
+                >
+                    <Form.Item name="shopName" label="Name Shop" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+                        <Input />
+                    </Form.Item>
+                </Form>}
+
+        />
+
     )
 }
 
 interface Props {
-    field?: any,
+    field?: IField,
 }
 /**
  * @name ShopHeader Component
- * @param field 
+ * @param field IField
  * @returns JSX.Element
  */
 export default function ShopHeader({ field, ...props }: Props) {
 
-    // console.log('optionSetting', props);
-
-    const settingOption = {
+    const settingOption: SettingProps = {
         field: {
             ...field,
-            title: 'Setting Shop Header'
+            id: field?.id ?? null,
+            type: field?.type ?? null,
         },
         configContent: () => <Setting field={field} {...props} />,
         ...props,

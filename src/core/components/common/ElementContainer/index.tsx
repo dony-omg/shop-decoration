@@ -1,21 +1,38 @@
 import React from 'react'
 import { Popover, Space, Button } from 'antd';
-import { DragOutlined, DeleteOutlined, SettingOutlined } from '@ant-design/icons';
+import { DragOutlined, DeleteOutlined } from '@ant-design/icons';
+import { IField } from '../../../types';
 
 interface SettingProps {
-    field?: any,
-    configContent?: (props: { field?: any }) => React.ReactNode,
+    field?: IField,
+    configContent?: (props: { field?: IField }) => React.ReactNode,
     onRemove?: (id: string) => void,
     listeners?: any,
     setActivatorNodeRef?: (node: HTMLElement) => void
 }
 const SettingAction = ({ listeners, setActivatorNodeRef, onRemove, ...props }: SettingProps) => (
     <Space direction="vertical">
-        <Button {...listeners} node={setActivatorNodeRef} icon={<DragOutlined />} size={"small"} />
-        <Popover placement="right" content={props?.configContent?.({ field: props.field })} title="Setting" trigger={"click"} arrow={false}>
-            <Button icon={<SettingOutlined />} size={"small"} />
-        </Popover>
-        <Button danger icon={<DeleteOutlined />} size={"small"} onClick={() => { onRemove?.(props?.field?.id) }} />
+        {
+            /**
+             * @description: If field is not disabled, show drag icon
+             * @param {IField} field
+             */
+            !props?.field?.disabled && <Button
+                {...listeners}
+                node={setActivatorNodeRef}
+                icon={<DragOutlined />}
+                size={"small"}
+            />
+        }
+
+        {props?.configContent?.({ field: props.field })}
+        <Button
+            danger
+            icon={<DeleteOutlined />}
+            size={"small"}
+            onClick={() => { onRemove?.(props?.field?.id || "") }}
+
+        />
     </Space>
 );
 
@@ -32,7 +49,6 @@ export default function ElementContainer({ children, popoverOption, settingOptio
             content={<SettingAction {...settingOption} />}
             trigger="hover"
             {...popoverOption}
-
         >
             {children}
         </Popover>

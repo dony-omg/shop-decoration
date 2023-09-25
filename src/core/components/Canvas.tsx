@@ -98,7 +98,7 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
 }
 
 interface Props {
-    items?: any[];
+    items?: any[] | undefined;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
 }
@@ -126,39 +126,31 @@ export default function Canvas({ items, id, ...props }: Props) {
         transition
     };
 
-    const containerStyle: React.CSSProperties = {
-        width: '350px', // '350px
-        minHeight: 500,
-        textAlign: 'center',
-        background: '#ffffff',
-        boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
-        //TODO: remove this margin
-        margin: '0 auto',
-    };
 
     return (
-        <div id="mobile-container" style={containerStyle}>
-            <div
-                ref={setNodeRef}
-                className="canvas"
-                style={style}
-                {...listeners}
-            >
-                <div
-                    className="canvas-fields"
-                    data-container={id}
-                >
-                    {items.map((item, i) => (
-                        <SortableField
-                            key={item.id}
-                            id={item.id}
-                            field={item}
-                            index={i}
-                            onRemove={props.onRemove}
-                            onUpdateSetting={props.onUpdateSetting}
-                        />
-                    ))}
-                </div>
+        <div
+            ref={setNodeRef}
+            className="canvas"
+            style={{
+                width: '350px',
+                margin: '0 auto',
+                background: '#ffffff',
+                boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px',
+                ...style
+            }}
+            {...listeners}
+        >
+            <div className="canvas-fields">
+                {items.map((item, i) => (
+                    <SortableField
+                        key={item.id}
+                        id={item.id}
+                        field={item}
+                        index={i}
+                        onRemove={props.onRemove}
+                        onUpdateSetting={props.onUpdateSetting}
+                    />
+                ))}
             </div>
         </div>
     )

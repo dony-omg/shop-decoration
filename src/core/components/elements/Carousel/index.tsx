@@ -2,7 +2,7 @@ import { Carousel } from 'antd';
 import ElementContainer from '../../common/ElementContainer';
 
 /**
- * @name Setting
+ * @name Setting for element
  * @returns JSX.Element
  */
 const Setting = () => {

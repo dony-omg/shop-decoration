@@ -12,7 +12,6 @@ export function SidebarField(props) {
     const { field, overlay } = props;
     const { title } = field;
 
-
     if (overlay) {
         return (<Card title={title}>
             <img alt="example" src={field.imageUrl} style={{ width: '100%' }} />
@@ -78,11 +77,7 @@ export default function Sidebar({ fieldsRegKey }: SidebarProps) {
         width: 350,
         backgroundColor: '#ffffff',
         overflow: 'scroll',
-        position: 'absolute',
         padding: 10,
-        top: 0,
-        left: 0,
-        bottom: 0
     }
     return (
         <div key={fieldsRegKey} id="element-list" style={containerStyle}>

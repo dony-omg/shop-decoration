@@ -14,7 +14,9 @@ import {
 import {
     SortableContext,
     arrayMove,
-    sortableKeyboardCoordinates
+    sortableKeyboardCoordinates,
+    verticalListSortingStrategy,
+    rectSwappingStrategy
 } from '@dnd-kit/sortable';
 import { theme } from 'antd';
 import React, { useRef, useState } from 'react';
@@ -111,6 +113,7 @@ export default function Container() {
         border: `1px solid ${token.colorBorderSecondary}`,
         borderRadius: token.borderRadiusLG,
         overflowY: 'auto',
+        display: 'flex',
     };
 
     const handleDragStart = (event: DragStartEvent) => {
@@ -247,8 +250,7 @@ export default function Container() {
         cleanUp();
     };
 
-    console.log('render', fields);
-
+    console.log('fields', fields);
     return (
         <div style={containerStyle}>
             <DndContext
@@ -272,40 +274,30 @@ export default function Container() {
                 autoScroll
             // modifiers={[restrictToVerticalAxis]}
             >
-                <div style={{
-                    position: 'relative',
-                    background: '#f5f5f5',
-                }}>
-                    <Announcements />
-                    {/**
+
+                <Announcements />
+                {/**
                      * Components that use `useDraggable`
                      * Elements that can be dragged
                     */}
-                    <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
+                <Sidebar fieldsRegKey={sidebarFieldsRegenKey} />
 
-                    {/* Components that use `useDraggable`, `useDroppable` */}
-                    <div style={{ marginLeft: 350, padding: '25px 0' }}>
-                        <SortableContext
-                            onSortEnd={(event) => {
-                                console.log('onSortEnd', event);
-                            }}
-                            // strategy={verticalListSortingStrategy}
-                            items={fields?.map((fields: any) => fields?.id)}
-                        >
-                            <Canvas
-                                items={fields}
-                                onRemove={handleRemove}
-                                onUpdateSetting={handleUpdateSetting}
-                            />
-                        </SortableContext>
-                        <DragOverlay>
-                            {activeSidebarField ? (
-                                <SidebarField overlay field={activeSidebarField} />
-                            ) : null}
-                            {activeField ? <Field overlay field={activeField} /> : null}
-                        </DragOverlay>
-                    </div>
-                </div>
+                <SortableContext
+                    strategy={verticalListSortingStrategy}
+                    items={fields.map((field: any) => field.id)}
+                >
+                    <Canvas
+                        items={fields}
+                        onRemove={handleRemove}
+                        onUpdateSetting={handleUpdateSetting}
+                    />
+                </SortableContext>
+                <DragOverlay>
+                    {activeSidebarField ? (
+                        <SidebarField overlay field={activeSidebarField} />
+                    ) : null}
+                    {activeField ? <Field overlay field={activeField} /> : null}
+                </DragOverlay>
             </DndContext>
         </div>
     )
