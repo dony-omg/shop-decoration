@@ -1,9 +1,9 @@
-import Container from '../core/components/Container'
+import Container from "../core/components/Container";
 
 export default function EditorPage() {
-    return (
-        <div>
-            <Container />
-        </div>
-    )
+  return (
+    <div>
+      <Container />
+    </div>
+  );
 }

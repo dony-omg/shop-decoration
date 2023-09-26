@@ -3,7 +3,7 @@ import * as ShopHeader from "./ShopHeader";
 import * as Promotion from "./Promotion";
 
 export default {
-    Products,
-    ShopHeader,
-    Promotion
-}
+  Products,
+  ShopHeader,
+  Promotion
+};
