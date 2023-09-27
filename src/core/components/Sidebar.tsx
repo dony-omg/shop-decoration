@@ -49,13 +49,15 @@ const DraggableSidebarField = ({ field }: DraggableSidebarFieldProps) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={{
-        // padding: 10,
-        // marginBottom: 10,
-        // backgroundColor: '#f5f5f5',
-        // border: '1px solid #e8e8e8',
-        transform: CSS.Translate.toString(transform)
-      }}
+      style={
+        {
+          // padding: 10,
+          // marginBottom: 10,
+          // backgroundColor: '#f5f5f5',
+          // border: '1px solid #e8e8e8',
+          // transform: CSS.Translate.toString(transform)
+        }
+      }
     >
       <SidebarField field={field} />
     </div>

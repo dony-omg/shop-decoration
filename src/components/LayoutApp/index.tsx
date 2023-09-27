@@ -13,6 +13,9 @@ interface PropsType {
   children?: React.ReactNode;
 }
 
+/* The code defines a functional component called `LayoutApp` which is a layout component for a React
+application. It takes in a prop called `children` which represents the content to be rendered inside
+the layout. */
 const LayoutApp: React.FC = ({ children }: PropsType) => {
   const {
     token: { colorBgContainer }

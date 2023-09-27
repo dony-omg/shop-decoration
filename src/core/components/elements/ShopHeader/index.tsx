@@ -1,16 +1,15 @@
-import { ArrowLeftOutlined, SettingOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 import {
   Avatar,
   Button,
   Form,
   Input,
-  Popconfirm,
   Space,
   Tabs,
   TabsProps,
   Typography
 } from "antd";
-import { useState } from "react";
+import React from "react";
 import { IField, IShopHeaderElementSetting } from "../../../types";
 import ElementContainer from "../../common/ElementContainer";
 import SettingPopContainer from "../../common/SettingPopContainer";

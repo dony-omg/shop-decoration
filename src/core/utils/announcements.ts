@@ -1,5 +1,7 @@
 import { useDndMonitor } from "@dnd-kit/core";
 
+/* The `defaultAnnouncements` object contains event handlers for various drag and drop events. These
+event handlers are used to provide feedback and log messages during the drag and drop process. */
 const defaultAnnouncements = {
   onDragStart({ active }) {
     const { id } = active;

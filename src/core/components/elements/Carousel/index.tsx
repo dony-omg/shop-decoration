@@ -1,5 +1,6 @@
 import { Carousel } from "antd";
 import ElementContainer from "../../common/ElementContainer";
+import React from "react";
 
 /**
  * @name Setting for element

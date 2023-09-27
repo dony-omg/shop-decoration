@@ -11,6 +11,7 @@ import {
 } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import ElementContainer from "../../common/ElementContainer";
+import React from "react";
 
 const { Meta } = Card;
 const { Title } = Typography;
@@ -110,7 +111,7 @@ interface Props {
 }
 export default function Products({ field, ...props }: Props) {
   const colCount = 2;
-  const numberOfProducts = 4;
+  const numberOfProducts = 2;
 
   const settingOption = {
     field,

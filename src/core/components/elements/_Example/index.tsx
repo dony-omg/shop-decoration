@@ -1,9 +1,8 @@
-import { Button, Form, Popconfirm } from "antd";
 import { useState } from "react";
-import { SettingOutlined } from "@ant-design/icons";
 
+import React from "react";
 import ElementContainer from "../../common/ElementContainer";
-
+import SettingPopContainer from "../../common/SettingPopContainer";
 /**
  * @name Setting
  * @returns JSX.Element
@@ -37,23 +36,11 @@ export const Setting = () => {
   };
 
   return (
-    <Popconfirm
-      title="Setting"
-      trigger={"click"}
-      arrow={false}
-      placement="right"
-      open={open}
+    <SettingPopContainer
       onConfirm={handleOk}
-      okButtonProps={{ loading: confirmLoading }}
       onCancel={handleCancel}
       description={<>Content</>}
-    >
-      <Button
-        icon={<SettingOutlined />}
-        size={"small"}
-        onClick={showPopconfirm}
-      />
-    </Popconfirm>
+    />
   );
 };
 

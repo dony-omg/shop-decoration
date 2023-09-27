@@ -117,19 +117,22 @@ interface Props {
  * @returns JSX.Element
  */
 export default function Canvas({ items, id, ...props }: Props) {
-  const { listeners, setNodeRef, transform, transition } = useDroppable({
-    id: "canvas_droppable",
-    data: {
-      parent: null,
-      isContainer: true
-    }
-  });
+  const { listeners, setNodeRef, transform, transition, attributes } =
+    useDroppable({
+      id: "canvas_droppable",
+      data: {
+        parent: null,
+        isContainer: true
+      }
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
     transition
   };
 
+  //TODO: no issue with this
+  // Pls check sidebar
   return (
     <div
       ref={setNodeRef}
@@ -142,6 +145,7 @@ export default function Canvas({ items, id, ...props }: Props) {
         ...style
       }}
       {...listeners}
+      {...attributes}
     >
       <div className="canvas-fields">
         {items.map((item, i) => (

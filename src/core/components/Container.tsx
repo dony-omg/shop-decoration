@@ -260,12 +260,11 @@ export default function Container() {
     cleanUp();
   };
 
-  console.log("fields", fields);
   return (
     <div style={containerStyle}>
       <DndContext
         sensors={sensors}
-        collisionDetection={closestCenter}
+        // collisionDetection={closestCenter}
         /**
          * When drag starts:
          * Set the draggable element's parent to the nearest <Droppable />
