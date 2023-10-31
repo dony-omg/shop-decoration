@@ -85,6 +85,16 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
         // disabled: true
     });
     const [action, setAction] = React.useState(false);
+    const ref = React.useRef<HTMLDivElement>(null);
+
+    const handleClick = React.useCallback(() => {
+        console.log('click', ref.current);
+        if (ref.current) {
+            ref.current.scrollIntoView({
+                behavior: "smooth",
+            });
+        }
+    }, []);
 
     const style = {
         position: 'relative',
@@ -93,7 +103,9 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     };
     return (
         <div
+            ref={ref}
             className="canvas-field-wrapper"
+            onClick={() => handleClick()}
             style={{
                 border: action ? '2px solid #2630ec' : '2px solid transparent',
             }}
