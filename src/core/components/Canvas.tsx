@@ -3,6 +3,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import React from "react";
 import { renderers } from "./Items";
+import { CaretDownOutlined, CaretUpOutlined, ControlOutlined, DeleteOutlined } from "@ant-design/icons";
 
 function getRenderer(type: string) {
     if (type === "spacer") {
@@ -47,12 +48,7 @@ export function Field(props) {
     }
 
     return (
-        <div
-            style={{
-                border: "1px dotted #ff4d4f",
-                textAlign: "left"
-            }}
-        >
+        <div>
             <Component
                 {...props}
                 field={field}
@@ -88,20 +84,44 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
         }
         // disabled: true
     });
+    const [action, setAction] = React.useState(false);
 
     const style = {
+        position: 'relative',
         transform: CSS.Transform.toString(transform),
         transition
     };
     return (
-        <div ref={setNodeRef} style={style} {...attributes}>
-            <Field
-                field={field}
-                onRemove={props?.onRemove}
-                listeners={listeners}
-                setActivatorNodeRef={setActivatorNodeRef}
-                onUpdateSetting={props?.onUpdateSetting}
-            />
+        <div
+            className="canvas-field-wrapper"
+            style={{
+                border: action ? '2px solid #2630ec' : '2px solid transparent',
+            }}
+            onMouseEnter={() => { console.log('enter', id, field?.type); setAction(true); }}
+            onMouseLeave={() => { console.log('leave'); setAction(false); }}
+        >
+            <div className="element-label">
+                {field?.type}
+            </div>
+            <div id={id} ref={setNodeRef} style={style} {...attributes}>
+                <div className="overlay-element"></div>
+                <Field
+                    field={field}
+                    onRemove={props?.onRemove}
+                    listeners={listeners}
+                    setActivatorNodeRef={setActivatorNodeRef}
+                    onUpdateSetting={props?.onUpdateSetting}
+                />
+            </div>
+
+            {action &&
+                (<div className="element-action">
+                    <ul>
+                        <li><CaretUpOutlined /></li>
+                        <li><CaretDownOutlined /></li>
+                        <li><DeleteOutlined /></li>
+                    </ul>
+                </div>)}
         </div>
     );
 };
@@ -136,7 +156,7 @@ export default function Canvas({ items, id, ...props }: Props) {
     return (
         <div
             ref={setNodeRef}
-            className="canvas"
+            className="canvas canvas-wrapper"
             style={{
                 width: "350px",
                 // margin: "0 auto",
@@ -159,6 +179,9 @@ export default function Canvas({ items, id, ...props }: Props) {
                     />
                 ))}
             </div>
+            <div style={{
+                height: 'calc(100vh + -180px)',
+            }}></div>
         </div>
     );
 }

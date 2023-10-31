@@ -55,6 +55,8 @@ body {
     "Segoe UI Emoji",
     "Segoe UI Symbol",
     "Noto Color Emoji" !important;
+    max-height: 100vh;
+    overflow: hidden;
 }
 
 @media (max-width: 768px) {

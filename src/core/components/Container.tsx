@@ -6,7 +6,7 @@ import {
     DragStartEvent,
     KeyboardSensor,
     PointerSensor,
-    closestCenter,
+    // closestCenter,
     useSensor,
     useSensors,
     UniqueIdentifier
@@ -22,11 +22,13 @@ import { Card, theme } from "antd";
 import React, { useRef, useState } from "react";
 import { useImmer } from "use-immer";
 import { useElementSize } from 'usehooks-ts'
-import { Link, animateScroll as scroll } from "react-scroll";
-
+// import { Link, animateScroll as scroll } from "react-scroll";
+import '../style.css'
 
 
 // import Announcements from "../utils/announcements";
+
+import { layoutData } from '../mock/data'
 
 import Canvas, { Field } from "./Canvas";
 import Sidebar, { SidebarField } from "./Sidebar";
@@ -75,7 +77,8 @@ export default function Container() {
                     shopName: "Shop Name",
                     description: "Shop Description"
                 }
-            }
+            },
+            ...layoutData
         ]
     });
     const { fields } = data;
@@ -268,6 +271,8 @@ export default function Container() {
     const [squareRef, { width }] = useElementSize()
     const widthContainer = width;
     const leftSetting = (widthContainer / 2) + (350 / 2) + 30;
+
+    console.log('fields', fields);
 
     return (
         <div style={containerStyle} ref={squareRef}>
