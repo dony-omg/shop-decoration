@@ -65,6 +65,7 @@ interface SortableFieldProps {
     field: any;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
+    handleActiveElement?: (dis: number) => void;
 }
 
 const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
@@ -88,11 +89,15 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     const ref = React.useRef<HTMLDivElement>(null);
 
     const handleClick = React.useCallback(() => {
-        console.log('click', ref.current);
+        // console.log('click', ref.current);
         if (ref.current) {
             ref.current.scrollIntoView({
                 behavior: "smooth",
             });
+
+            // const distanceFromTop = getElementDistanceFromTop(ref.current);
+            const distanceFromTop = ref.current.offsetTop
+            props?.handleActiveElement?.(distanceFromTop)
         }
     }, []);
 
@@ -109,8 +114,8 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
             style={{
                 border: action ? '2px solid #2630ec' : '2px solid transparent',
             }}
-            onMouseEnter={() => { console.log('enter', id, field?.type); setAction(true); }}
-            onMouseLeave={() => { console.log('leave'); setAction(false); }}
+            onMouseEnter={() => { setAction(true); }}
+            onMouseLeave={() => { setAction(false); }}
         >
             <div className="element-label">
                 {field?.type}
@@ -142,6 +147,7 @@ interface Props {
     items?: any[] | undefined;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
+    handleActiveElement?: (dis: number) => void;
 }
 
 /**
@@ -188,6 +194,7 @@ export default function Canvas({ items, id, ...props }: Props) {
                         index={i}
                         onRemove={props.onRemove}
                         onUpdateSetting={props.onUpdateSetting}
+                        handleActiveElement={props.handleActiveElement}
                     />
                 ))}
             </div>

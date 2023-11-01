@@ -19,7 +19,7 @@ const { Title } = Typography;
  * @name Setting
  * @returns JSX.Element
  */
-const Setting = () => {
+export const Setting = () => {
     const [open, setOpen] = useState(false);
     const [confirmLoading, setConfirmLoading] = useState(false);
     const [form] = Form.useForm();
@@ -57,39 +57,56 @@ const Setting = () => {
     };
 
     return (
-        <Popconfirm
-            title="Setting"
-            trigger={"click"}
-            arrow={false}
-            placement="right"
-            open={open}
-            onConfirm={handleOk}
-            okButtonProps={{ loading: confirmLoading }}
-            onCancel={handleCancel}
-            description={
-                <Form
-                    form={form}
-                    name="control-hooks"
-                    onFinish={onFinish}
-                    style={{ maxWidth: 600 }}
-                >
-                    <Form.Item
-                        name="nameShop"
-                        label="Name Shop"
-                        rules={[{ required: true }]}
-                    >
-                        <Input />
-                    </Form.Item>
-                </Form>
-            }
+        <Form
+            form={form}
+            name="control-hooks"
+            onFinish={onFinish}
+            style={{ maxWidth: 600 }}
         >
-            <Button
-                icon={<SettingOutlined />}
-                size={"small"}
-                onClick={showPopconfirm}
-            />
-        </Popconfirm>
-    );
+            <Form.Item
+                name="nameShop"
+                label="Name Shop"
+                rules={[{ required: true }]}
+            >
+                <Input />
+            </Form.Item>
+        </Form>
+    )
+
+    // return (
+    //     <Popconfirm
+    //         title="Setting"
+    //         trigger={"click"}
+    //         arrow={false}
+    //         placement="right"
+    //         open={open}
+    //         onConfirm={handleOk}
+    //         okButtonProps={{ loading: confirmLoading }}
+    //         onCancel={handleCancel}
+    //         description={
+    //             <Form
+    //                 form={form}
+    //                 name="control-hooks"
+    //                 onFinish={onFinish}
+    //                 style={{ maxWidth: 600 }}
+    //             >
+    //                 <Form.Item
+    //                     name="nameShop"
+    //                     label="Name Shop"
+    //                     rules={[{ required: true }]}
+    //                 >
+    //                     <Input />
+    //                 </Form.Item>
+    //             </Form>
+    //         }
+    //     >
+    //         <Button
+    //             icon={<SettingOutlined />}
+    //             size={"small"}
+    //             onClick={showPopconfirm}
+    //         />
+    //     </Popconfirm>
+    // );
 };
 
 const ProductCard = () => (

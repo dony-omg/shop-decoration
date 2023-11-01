@@ -268,11 +268,18 @@ export default function Container() {
         cleanUp();
     };
 
-    const [squareRef, { width }] = useElementSize()
+    const [squareRef, { width }] = useElementSize();
+    const [top, setTop] = useState(0);
     const widthContainer = width;
     const leftSetting = (widthContainer / 2) + (350 / 2) + 30;
 
-    console.log('fields', fields);
+
+    const handleActiveElement = (distant: number) => {
+        setTop(distant);
+        // setActiveField(ref);
+    }
+
+    console.log('top ==>', top);
 
     return (
         <div style={containerStyle} ref={squareRef}>
@@ -319,6 +326,7 @@ export default function Container() {
                                 items={fields}
                                 onRemove={handleRemove}
                                 onUpdateSetting={handleUpdateSetting}
+                                handleActiveElement={handleActiveElement}
                             />
                         </SortableContext>
                     </div>
@@ -330,7 +338,8 @@ export default function Container() {
                             width: '400px',
                             height: '100%',
                             position: 'absolute',
-                            left: leftSetting
+                            left: leftSetting,
+                            top: top
                         }}>
 
                         <Card title="Card title" style={{ width: '100%' }} extra={<CloseOutlined />}>
