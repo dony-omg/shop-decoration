@@ -65,7 +65,7 @@ interface SortableFieldProps {
     field: any;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
-    handleActiveElement?: (dis: number) => void;
+    handleActiveElement?: (dis: number, element: any) => void;
 }
 
 const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
@@ -97,7 +97,8 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
 
             // const distanceFromTop = getElementDistanceFromTop(ref.current);
             const distanceFromTop = ref.current.offsetTop
-            props?.handleActiveElement?.(distanceFromTop)
+
+            props?.handleActiveElement?.(distanceFromTop, field)
         }
     }, []);
 
@@ -147,7 +148,7 @@ interface Props {
     items?: any[] | undefined;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
-    handleActiveElement?: (dis: number) => void;
+    handleActiveElement?: (dis: number, element: any) => void;
 }
 
 /**

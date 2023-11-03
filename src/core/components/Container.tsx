@@ -18,7 +18,7 @@ import {
     verticalListSortingStrategy,
     // rectSwappingStrategy
 } from "@dnd-kit/sortable";
-import { Card, theme } from "antd";
+import { theme } from "antd";
 import React, { useRef, useState } from "react";
 import { useImmer } from "use-immer";
 import { useElementSize } from 'usehooks-ts'
@@ -32,7 +32,7 @@ import { layoutData } from '../mock/data'
 
 import Canvas, { Field } from "./Canvas";
 import Sidebar, { SidebarField } from "./Sidebar";
-import { CloseOutlined } from "@ant-design/icons";
+import renderComponent from "./elements/components";
 
 function getData(prop: any) {
     return prop?.data?.current ?? {};
@@ -268,18 +268,18 @@ export default function Container() {
         cleanUp();
     };
 
+    //TODO: handel active element
     const [squareRef, { width }] = useElementSize();
+    const [activeElement, setActiveElement] = useState<any>(null);
     const [top, setTop] = useState(0);
     const widthContainer = width;
     const leftSetting = (widthContainer / 2) + (350 / 2) + 30;
 
 
-    const handleActiveElement = (distant: number) => {
+    const handleActiveElement = (distant: number, element: any) => {
         setTop(distant);
-        // setActiveField(ref);
+        setActiveElement(element);
     }
-
-    console.log('top ==>', top);
 
     return (
         <div style={containerStyle} ref={squareRef}>
@@ -342,11 +342,15 @@ export default function Container() {
                             top: top
                         }}>
 
-                        <Card title="Card title" style={{ width: '100%' }} extra={<CloseOutlined />}>
-                            <p>Card content</p>
-                            <p>Card content</p>
-                            <p>Card content</p>
-                        </Card>
+                        {activeElement && renderComponent({
+                            component: activeElement.type,
+                            _uid: activeElement.id,
+                            field: activeElement,
+                            onUpdateSetting: handleUpdateSetting,
+                            onCloseSetting: () => { setActiveElement(null) },
+                            // handleActiveElement: () => { console.log('handleActiveElement') },
+                            // activeElement: activeElement
+                        })}
 
                     </div>
                 </div>

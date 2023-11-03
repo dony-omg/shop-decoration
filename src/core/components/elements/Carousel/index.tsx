@@ -1,5 +1,5 @@
+import { Card } from "antd";
 import { Carousel } from "antd";
-import ElementContainer from "../../common/ElementContainer";
 import React from "react";
 
 /**
@@ -7,7 +7,7 @@ import React from "react";
  * @returns JSX.Element
  */
 export const Setting = () => {
-    return <div>Setting CarouselElement</div>;
+    return <Card title="Setting CarouselElement"></Card>;
 };
 
 const contentStyle: React.CSSProperties = {
@@ -34,16 +34,14 @@ export default function CarouselElement({ field, ...props }: Props) {
     };
 
     return (
-        <ElementContainer settingOption={settingOption}>
-            <div>
-                <Carousel afterChange={onChange}>
-                    {[...Array(4)].map((item, index) => (
-                        <div>
-                            <h3 style={contentStyle}>{index}</h3>
-                        </div>
-                    ))}
-                </Carousel>
-            </div>
-        </ElementContainer>
+        <div>
+            <Carousel afterChange={onChange}>
+                {[...Array(4)].map((item, index) => (
+                    <div>
+                        <h3 style={contentStyle}>{index}</h3>
+                    </div>
+                ))}
+            </Carousel>
+        </div>
     );
 }

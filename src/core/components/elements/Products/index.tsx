@@ -123,33 +123,24 @@ const ProductCard = () => (
     </Card>
 );
 
-interface Props {
-    field?: any;
-}
-export default function Products({ field, ...props }: Props) {
+
+export default function Products() {
     const colCount = 2;
     const numberOfProducts = 2;
 
-    const settingOption = {
-        field,
-        configContent: Setting,
-        ...props
-    };
 
     return (
-        <ElementContainer settingOption={settingOption}>
-            <div style={{ margin: "5px 0" }}>
-                <Title level={5} style={{ marginLeft: 5 }}>
-                    Fashion
-                </Title>
-                <Row gutter={[8, 8]}>
-                    {[...Array(numberOfProducts)].map((_, index) => (
-                        <Col span={24 / colCount}>
-                            <ProductCard key={index} />
-                        </Col>
-                    ))}
-                </Row>
-            </div>
-        </ElementContainer>
+        <div style={{ margin: "5px 0" }}>
+            <Title level={5} style={{ marginLeft: 5 }}>
+                Fashion
+            </Title>
+            <Row gutter={[8, 8]}>
+                {[...Array(numberOfProducts)].map((_, index) => (
+                    <Col span={24 / colCount}>
+                        <ProductCard key={index} />
+                    </Col>
+                ))}
+            </Row>
+        </div>
     );
 }
