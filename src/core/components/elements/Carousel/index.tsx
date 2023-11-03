@@ -1,13 +1,28 @@
-import { Card } from "antd";
 import { Carousel } from "antd";
 import React from "react";
+import SettingCardContainer from "../../common/SettingCardContainer";
+
+
+
+interface SettingProps {
+    field?: any;
+    optionSetting: any;
+    onUpdateSetting?: (id: string, setting: any) => void;
+    onCloseSetting?: () => void;
+}
 
 /**
  * @name Setting for element
  * @returns JSX.Element
  */
-export const Setting = () => {
-    return <Card title="Setting CarouselElement"></Card>;
+export const Setting = ({ field, onUpdateSetting, onCloseSetting }: SettingProps) => {
+    return <SettingCardContainer
+        title="Setting CarouselElement"
+        onClose={onCloseSetting}
+        onSaving={() => { }}
+    >
+        Setting CarouselElement
+    </SettingCardContainer>;
 };
 
 const contentStyle: React.CSSProperties = {

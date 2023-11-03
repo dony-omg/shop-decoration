@@ -9,104 +9,33 @@ import {
     Popconfirm,
     Button
 } from "antd";
-import { SettingOutlined } from "@ant-design/icons";
-import ElementContainer from "../../common/ElementContainer";
+import SettingCardContainer from "../../common/SettingCardContainer";
 import React from "react";
 
 const { Meta } = Card;
 const { Title } = Typography;
+
+
+
+interface SettingProps {
+    field?: any;
+    optionSetting: any;
+    onUpdateSetting?: (id: string, setting: any) => void;
+    onCloseSetting?: () => void;
+}
+
 /**
- * @name Setting
+ * @name Setting for element
  * @returns JSX.Element
  */
-export const Setting = () => {
-    const [open, setOpen] = useState(false);
-    const [confirmLoading, setConfirmLoading] = useState(false);
-    const [form] = Form.useForm();
-
-    const showPopconfirm = () => {
-        setOpen(true);
-    };
-
-    /**
-     * @name handleOk OK button popconfirm
-     */
-    const handleOk = () => {
-        setConfirmLoading(true);
-        // trigger submit form
-        form.submit();
-    };
-
-    /**
-     * @name handleCancel Cancel button popconfirm
-     */
-    const handleCancel = () => {
-        setOpen(false);
-    };
-
-    /**
-     * @name onFinish handle submit form
-     * @param values
-     */
-    const onFinish = (values: any) => {
-        // if (field && field.id) {
-        //     onUpdateSetting && onUpdateSetting(field.id, values);
-        //     setOpen(false);
-        //     setConfirmLoading(false);
-        // }
-    };
-
-    return (
-        <Form
-            form={form}
-            name="control-hooks"
-            onFinish={onFinish}
-            style={{ maxWidth: 600 }}
-        >
-            <Form.Item
-                name="nameShop"
-                label="Name Shop"
-                rules={[{ required: true }]}
-            >
-                <Input />
-            </Form.Item>
-        </Form>
-    )
-
-    // return (
-    //     <Popconfirm
-    //         title="Setting"
-    //         trigger={"click"}
-    //         arrow={false}
-    //         placement="right"
-    //         open={open}
-    //         onConfirm={handleOk}
-    //         okButtonProps={{ loading: confirmLoading }}
-    //         onCancel={handleCancel}
-    //         description={
-    //             <Form
-    //                 form={form}
-    //                 name="control-hooks"
-    //                 onFinish={onFinish}
-    //                 style={{ maxWidth: 600 }}
-    //             >
-    //                 <Form.Item
-    //                     name="nameShop"
-    //                     label="Name Shop"
-    //                     rules={[{ required: true }]}
-    //                 >
-    //                     <Input />
-    //                 </Form.Item>
-    //             </Form>
-    //         }
-    //     >
-    //         <Button
-    //             icon={<SettingOutlined />}
-    //             size={"small"}
-    //             onClick={showPopconfirm}
-    //         />
-    //     </Popconfirm>
-    // );
+export const Setting = ({ field, onUpdateSetting, onCloseSetting }: SettingProps) => {
+    return <SettingCardContainer
+        title="Setting Products"
+        onClose={onCloseSetting}
+        onSaving={() => { }}
+    >
+        Setting CarouselElement
+    </SettingCardContainer>;
 };
 
 const ProductCard = () => (

@@ -22,8 +22,6 @@ interface SettingProps {
     optionSetting: any;
     onUpdateSetting?: (id: string, setting: IShopHeaderElementSetting) => void;
     onCloseSetting?: () => void;
-    // configContent?: () => JSX.Element;
-    // handleActiveElement?: () => void;
 }
 
 /**
