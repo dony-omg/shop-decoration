@@ -1,9 +1,10 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import React from "react";
+import React, { useEffect } from "react";
 import { renderers } from "./Items";
 import { CaretDownOutlined, CaretUpOutlined, ControlOutlined, DeleteOutlined } from "@ant-design/icons";
+import { Button } from "antd";
 
 function getRenderer(type: string) {
     if (type === "spacer") {
@@ -63,19 +64,21 @@ interface SortableFieldProps {
     id: string;
     index: number;
     field: any;
+    activeElement?: any;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
     handleActiveElement?: (dis: number, element: any) => void;
+    handleMoveElement?: (index: number, step: string) => void;
 }
 
-const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
+const SortableField = ({ id, index, field, activeElement, ...props }: SortableFieldProps) => {
     const {
         attributes,
         listeners,
         setNodeRef,
         setActivatorNodeRef,
         transform,
-        transition
+        transition,
     } = useSortable({
         id,
         data: {
@@ -88,33 +91,43 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
     const [action, setAction] = React.useState(false);
     const ref = React.useRef<HTMLDivElement>(null);
 
+    useEffect(() => {
+        if (ref && activeElement?.id === id) {
+            const distanceFromTop = ref?.current?.offsetTop || 0;
+            props?.handleActiveElement?.(distanceFromTop, field)
+        }
+    }, [index]);
+
     const handleClick = React.useCallback(() => {
-        // console.log('click', ref.current);
+        setAction(true);
         if (ref.current) {
             ref.current.scrollIntoView({
                 behavior: "smooth",
             });
 
             // const distanceFromTop = getElementDistanceFromTop(ref.current);
-            const distanceFromTop = ref.current.offsetTop
+            const distanceFromTop = ref.current.offsetTop;
 
             props?.handleActiveElement?.(distanceFromTop, field)
         }
     }, []);
+
+    const handelMoveElement = (step: number) => {
+        props?.handleMoveElement?.(index, step);
+    }
 
     const style = {
         position: 'relative',
         transform: CSS.Transform.toString(transform),
         transition
     };
+
     return (
         <div
             ref={ref}
-            className="canvas-field-wrapper"
-            onClick={() => handleClick()}
-            style={{
-                border: action ? '2px solid #2630ec' : '2px solid transparent',
-            }}
+            id={`canvas-field-${id}`}
+            className={`canvas-field-wrapper  ${activeElement?.id === id ? 'active' : ''}`}
+            data-id={id}
             onMouseEnter={() => { setAction(true); }}
             onMouseLeave={() => { setAction(false); }}
         >
@@ -122,7 +135,9 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
                 {field?.type}
             </div>
             <div id={id} ref={setNodeRef} style={style} {...attributes}>
-                <div className="overlay-element"></div>
+                <div className="overlay-element"
+                    onClick={() => handleClick()}
+                ></div>
                 <Field
                     field={field}
                     onRemove={props?.onRemove}
@@ -132,12 +147,17 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
                 />
             </div>
 
-            {action &&
+            {(action || activeElement?.id === id) &&
                 (<div className="element-action">
                     <ul>
-                        <li><CaretUpOutlined /></li>
-                        <li><CaretDownOutlined /></li>
-                        <li><DeleteOutlined /></li>
+                        <li><Button type="text" size="small" disabled={index === 0 || index === 1} onClick={() => { handelMoveElement(-1) }}><CaretUpOutlined /></Button></li>
+                        <li><Button type="text" size="small" disabled={index === 0} onClick={() => { handelMoveElement(1) }}><CaretDownOutlined /></Button></li>
+                        <li><Button type="text" size="small" disabled={index === 0} onClick={() => {
+                            props?.onRemove?.(id);
+                            props?.handleActiveElement?.(0, null)
+
+                        }}
+                        ><DeleteOutlined /></Button></li>
                     </ul>
                 </div>)}
         </div>
@@ -146,16 +166,18 @@ const SortableField = ({ id, index, field, ...props }: SortableFieldProps) => {
 
 interface Props {
     items?: any[] | undefined;
+    activeElement?: any;
     onRemove?: (id: string) => void;
     onUpdateSetting?: (id: string, setting: any) => void;
     handleActiveElement?: (dis: number, element: any) => void;
+    handleMoveElement?: (step: number, id: string) => void;
 }
 
 /**
  * @name Canvas Component
  * @returns JSX.Element
  */
-export default function Canvas({ items, id, ...props }: Props) {
+export default function Canvas({ items, id, activeElement, ...props }: Props) {
     const { listeners, setNodeRef, transform, transition, attributes } =
         useDroppable({
             id: "canvas_droppable",
@@ -193,9 +215,11 @@ export default function Canvas({ items, id, ...props }: Props) {
                         id={item.id}
                         field={item}
                         index={i}
+                        activeElement={activeElement}
                         onRemove={props.onRemove}
                         onUpdateSetting={props.onUpdateSetting}
                         handleActiveElement={props.handleActiveElement}
+                        handleMoveElement={props.handleMoveElement}
                     />
                 ))}
             </div>

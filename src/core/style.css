@@ -7,6 +7,14 @@
     margin-bottom: 1px;
 }
 
+.canvas-field-wrapper:hover {
+    border-color: #4bb1ff;
+}
+
+.canvas-field-wrapper.active {
+    border-color: #2630ec;
+}
+
 .element-label {
     transform: translateX(-100%) scale(1);
     position: absolute;
@@ -36,7 +44,7 @@
 .element-action {
     padding: 3px;
     position: absolute;
-    width: 35px;
+    min-width: 35px;
     background-color: #fff;
     z-index: 5;
     right: -40px;

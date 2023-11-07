@@ -22,10 +22,9 @@ const SettingCardContainer = ({ title, children, onClose, onSaving }: SettingCar
     return (
         <Card
             title={title}
-            extra={<Button type="text" block onClick={() => { onClose?.() }}><CloseOutlined /></Button>}
+            extra={<CloseOutlined onClick={() => { onClose?.() }} />}
             style={{
-                boxShadow: `rgba(149, 157, 165, 0.2) 0px 8px 24px`,
-
+                boxShadow: `rgba(0, 0, 0, 0.16) 0px 1px 4px`,
             }}
         >
             {children}

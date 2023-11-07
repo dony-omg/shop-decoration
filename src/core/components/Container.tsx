@@ -19,7 +19,7 @@ import {
     // rectSwappingStrategy
 } from "@dnd-kit/sortable";
 import { theme } from "antd";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useImmer } from "use-immer";
 import { useElementSize } from 'usehooks-ts'
 // import { Link, animateScroll as scroll } from "react-scroll";
@@ -125,7 +125,7 @@ export default function Container() {
 
     const containerStyle: React.CSSProperties = {
         position: "relative",
-        height: "80vh",
+        height: "100vh",
         // overflow: "hidden",
         background: token.colorFillAlter,
         border: `1px solid ${token.colorBorderSecondary}`,
@@ -264,7 +264,7 @@ export default function Container() {
             });
         }
 
-        setSidebarFieldsRegenKey(Date.now());
+        // setSidebarFieldsRegenKey(Date.now());
         cleanUp();
     };
 
@@ -280,6 +280,22 @@ export default function Container() {
         setTop(distant);
         setActiveElement(element);
     }
+
+    const handleMoveElement = (oldIndex: number, step: number) => {
+        const newIndex = oldIndex + step;
+        const temp = fields[oldIndex];
+        if (oldIndex === 0 || newIndex === 0 || newIndex === fields?.length) return;
+
+        updateData((draft) => {
+            // const temp = draft.fields[oldIndex];
+            draft.fields[oldIndex] = draft.fields[newIndex];
+            draft.fields[newIndex] = temp;
+        })
+
+
+    }
+
+
 
     return (
         <div style={containerStyle} ref={squareRef}>
@@ -327,13 +343,15 @@ export default function Container() {
                                 onRemove={handleRemove}
                                 onUpdateSetting={handleUpdateSetting}
                                 handleActiveElement={handleActiveElement}
+                                handleMoveElement={handleMoveElement}
+                                activeElement={activeElement}
                             />
                         </SortableContext>
                     </div>
                     <div
                         className="setting-container"
                         style={{
-                            border: '1px solid #09af2d',
+                            // border: '1px solid #09af2d',
                             // backgroundColor: '#09af2d',
                             width: '400px',
                             height: '100%',
